@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/node": "^16.11.1",
     "@vaadin/router": "^1.7.4",
+    "algoliasearch": "^4.10.5",
     "cloudinary": "^1.27.0",
     "cors": "^2.8.5",
     "dropzone": "^5.9.3",

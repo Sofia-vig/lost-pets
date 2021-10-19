@@ -9,7 +9,7 @@ customElements.define(
 
       this.render();
 
-      //Data
+      //Data del reporte
       const form = this.querySelector(".form-report");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
