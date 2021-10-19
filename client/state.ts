@@ -11,6 +11,7 @@ export const state = {
   setPosition(lat, long) {
     const currentState = this.getState();
     currentState.position = { lat, long };
+    localStorage.setItem("position", JSON.stringify({ lat, long }));
     this.setState(currentState);
   },
 
@@ -19,6 +20,12 @@ export const state = {
     const cs = this.getState();
     cs.reportName = petName;
     this.setState(cs);
+  },
+
+  //Devuelve posicion guardada en el localStorage
+  getPosition() {
+    const positionLocalStorage = localStorage.getItem("position");
+    return JSON.parse(positionLocalStorage);
   },
 
   //agrega a la tabla Reports la info de la mascota vista

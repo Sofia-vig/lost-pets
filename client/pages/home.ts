@@ -21,7 +21,7 @@ customElements.define(
       });
     }
     render() {
-      const currentState = state.getState();
+      const position = state.getPosition();
 
       const style = document.createElement("style");
       style.innerHTML = `
@@ -52,7 +52,7 @@ customElements.define(
       <div class="container">
         <title-component>Mascotas perdidas cerca tuyo</title-component>
         ${
-          !currentState.position
+          !position
             ? `<p class="text">Para ver las mascotas reportadas cerca tuyo necesitamos permiso para conocer tu ubicación.</p>
                <button-component color="#FF9DF5">Dar mi ubicación</button-component>`
             : `<pet-card></pet-card>`

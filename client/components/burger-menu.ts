@@ -1,8 +1,30 @@
+import { Router } from "@vaadin/router";
+
 customElements.define(
   "menu-component",
   class extends HTMLElement {
     connectedCallback() {
       this.render();
+
+      const close = this.querySelector(".close");
+      close.addEventListener("click", () => {
+        this.innerHTML = `<header-component></header-component>`;
+      });
+
+      const myData = this.querySelector(".datos");
+      myData.addEventListener("click", () => {
+        Router.go("/login");
+      });
+
+      const mascotas = this.querySelector(".mascotas");
+      mascotas.addEventListener("click", () => {
+        Router.go("/login");
+      });
+
+      const report = this.querySelector(".report");
+      report.addEventListener("click", () => {
+        Router.go("/login");
+      });
     }
     render() {
       const style = document.createElement("style");
@@ -46,15 +68,26 @@ customElements.define(
               font-size:16px;
               color: #C6558B;
           }
+          .close{
+            font-size:24px;
+            font-weight:700;
+            position:fixed;
+            top:10px;
+            left:10px;
+          }
+          .hide{
+            display:none;
+          }
           
           `;
 
       this.innerHTML = `
         <div class="container-menu">
+        <div class="close">X</div>
           <div class="text-menu">
-            <h4>Mis Datos</h4>
-            <h4>Mis mascotas reportadas</h4>
-            <h4>Reportar mascota</h4>
+            <h4 class="datos">Mis Datos</h4>
+            <h4 class="mascotas">Mis mascotas reportadas</h4>
+            <h4 class="report">Reportar mascota</h4>
           </div>
           <div class="footer-menu">
             <p>sofa@sofa.com</p>

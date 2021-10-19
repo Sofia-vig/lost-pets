@@ -38,8 +38,7 @@ customElements.define(
 
         .nav__burger .first {
             margin-top: 0;
-        }
-        
+        }        
         `;
 
       this.innerHTML = `
@@ -52,6 +51,11 @@ customElements.define(
         </div>    
       </header>
         `;
+
+      const nav = this.querySelector(".nav__burger");
+      nav.addEventListener("click", () => {
+        this.innerHTML = `<menu-component></menu-component>`;
+      });
 
       this.appendChild(style);
     }
