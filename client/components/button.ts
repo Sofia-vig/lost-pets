@@ -28,6 +28,8 @@ customElements.define(
             height:50px;
             border:none;
             border-radius:4px;
+            font-size:16px;
+            font-weight:700;
         }
     `;
       this.innerHTML = `

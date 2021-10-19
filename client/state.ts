@@ -14,6 +14,16 @@ export const state = {
     this.setState(currentState);
   },
 
+  //Setea nombre de la mascota a la cual das informacion
+  setReportName(petName: string) {
+    const cs = this.getState();
+    cs.reportName = petName;
+    this.setState(cs);
+  },
+
+  //agrega a la tabla Reports la info de la mascota vista
+  newReport({ name, phone, description, petId }) {},
+
   //Busca mascotas reportadas cerca mio
   getPetsAround() {
     return [

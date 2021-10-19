@@ -5,6 +5,8 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
+
+      //Pido los permisos de geolocalizacion y los seteo en el state
       const button = this.querySelector("button-component");
       button?.addEventListener("click", () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -12,13 +14,14 @@ customElements.define(
           state.setPosition(latitude, longitude);
         });
       });
+
+      //Me suscribo al estado para mostrar las card si acepta geolocalizacion
       state.subscribe(() => {
         this.render();
       });
     }
     render() {
       const currentState = state.getState();
-      console.log(currentState);
 
       const style = document.createElement("style");
       style.innerHTML = `
@@ -31,6 +34,7 @@ customElements.define(
       .container{
           display:flex;
           flex-direction:column;
+          align-items:center;
           padding:33px 32px;
           gap:50px;
       }
@@ -42,6 +46,7 @@ customElements.define(
       }
       `;
 
+      //Pido permisos de ubicacion, si los permite muestro las mascotas cercanas
       this.innerHTML = `
       <header-component></header-component>
       <div class="container">
@@ -49,7 +54,7 @@ customElements.define(
         ${
           !currentState.position
             ? `<p class="text">Para ver las mascotas reportadas cerca tuyo necesitamos permiso para conocer tu ubicación.</p>
-        <button-component color="#FF9DF5">Dar mi ubicación</button-component>`
+               <button-component color="#FF9DF5">Dar mi ubicación</button-component>`
             : `<pet-card></pet-card>`
         }
         
