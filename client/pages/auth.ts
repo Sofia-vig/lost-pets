@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { state } from "../state";
 
 customElements.define(
   "auth-page",
@@ -6,14 +7,13 @@ customElements.define(
     connectedCallback() {
       this.render();
 
-      const form = this.querySelector(".auth-form");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        //si existe el mail en la basededatos
-        this.passwordRender();
-        //si no existe
-        // Router.go("/")
-      });
+      // const form = this.querySelector(".auth-form-email");
+      // form.addEventListener("submit", (e: any) => {
+      //   e.preventDefault();
+      //   const email = e.target.email.value;
+      //   state.setUserEmail(email);
+      //   this.passwordRender();
+      // });
     }
     passwordRender() {
       const style = document.createElement("style");
@@ -48,9 +48,9 @@ customElements.define(
         <header-component></header-component>
         <div class="container">
           <title-component>Ingresar</title-component>
-          <form class="auth-form">
+          <form class="auth-form-password">
               <div class="item">
-                  <label>CONTRASEÑA</label>
+                  <label class="label">CONTRASEÑA</label>
                   <input type="text" name="password" class="password"/>        
                   <a href="" class="password-forget">OLVIDE MI CONTRASEÑA</a>
               </div>
@@ -89,7 +89,7 @@ customElements.define(
       <header-component></header-component>
       <div class="container">
         <title-component>Ingresar</title-component>
-        <form class="auth-form">
+        <form class="auth-form-email">
             <div class="item-input">
                 <label>EMAIL</label>
                 <input type="text" name="email" class="email"/>        

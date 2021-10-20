@@ -16,7 +16,7 @@ customElements.define(
         const name = e.target.name.value;
         const phone = e.target.phone.value;
         const description = e.target.description.value;
-        state.newReport({ name, phone, description, petId: 1 });
+        // state.newReport({ name, phone, description, petId: 1 });
       });
     }
     render() {

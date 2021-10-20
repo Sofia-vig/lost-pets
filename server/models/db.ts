@@ -16,10 +16,3 @@ export const sequelize = new Sequelize({
     },
   },
 });
-
-// try {
-//     await sequelize.authenticate();
-//     console.log("okkkk");
-//   } catch (error) {
-//     console.error(error);
-//   }

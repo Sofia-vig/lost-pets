@@ -15,7 +15,7 @@ export const state = {
     this.setState(currentState);
   },
 
-  //Setea nombre de la mascota a la cual das informacion
+  //Setea nombre de la mascota a la cual das informacion (y tmb ID)
   setReportName(petName: string) {
     const cs = this.getState();
     cs.reportName = petName;
@@ -26,18 +26,6 @@ export const state = {
   getPosition() {
     const positionLocalStorage = localStorage.getItem("position");
     return JSON.parse(positionLocalStorage);
-  },
-
-  //agrega a la tabla Reports la info de la mascota vista
-  newReport({ name, phone, description, petId }) {},
-
-  //Busca mascotas reportadas cerca mio
-  getPetsAround() {
-    return [
-      { name: "bobby", place: "rio cuarto", img: "unaimagen" },
-      { name: "marz", place: "vm", img: "unaimagen" },
-      { name: "sofa", place: "españa", img: "unaimagen" },
-    ];
   },
 
   //Setea estado
