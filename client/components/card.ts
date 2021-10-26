@@ -8,7 +8,7 @@ customElements.define(
     pets: any[];
     connectedCallback() {
       //Guardo en this.pets todas las mascotas cercanas
-      this.pets = state.getPetsAround();
+      // this.pets = state.getPetsAround();
 
       this.render();
     }

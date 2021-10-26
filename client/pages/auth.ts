@@ -7,13 +7,14 @@ customElements.define(
     connectedCallback() {
       this.render();
 
-      // const form = this.querySelector(".auth-form-email");
-      // form.addEventListener("submit", (e: any) => {
-      //   e.preventDefault();
-      //   const email = e.target.email.value;
-      //   state.setUserEmail(email);
-      //   this.passwordRender();
-      // });
+      const form = this.querySelector(".auth-form-email");
+      form.addEventListener("submit", async (e: any) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const finded = await state.userExist(email);
+        finded && this.passwordRender();
+        !finded && Router.go("/profile/edit");
+      });
     }
     passwordRender() {
       const style = document.createElement("style");
@@ -60,6 +61,16 @@ customElements.define(
         `;
 
       this.appendChild(style);
+
+      const form = this.querySelector(".auth-form-password");
+      form.addEventListener("submit", async (e: any) => {
+        e.preventDefault();
+        const password = e.target.password.value;
+        const cs = state.getState();
+        const response = await state.signIn(cs.email, password);
+        response && Router.go(cs.goTo);
+        !response && console.log("no");
+      });
     }
     render() {
       const style = document.createElement("style");

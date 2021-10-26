@@ -1,10 +1,13 @@
 import { Router } from "@vaadin/router";
+import { state } from "../state";
 
 customElements.define(
   "menu-component",
   class extends HTMLElement {
     connectedCallback() {
       this.render();
+
+      const token = state.getToken();
 
       const close = this.querySelector(".close");
       close.addEventListener("click", () => {
@@ -13,17 +16,23 @@ customElements.define(
 
       const myData = this.querySelector(".datos");
       myData.addEventListener("click", () => {
-        Router.go("/login");
-      });
-
-      const mascotas = this.querySelector(".mascotas");
-      mascotas.addEventListener("click", () => {
-        Router.go("/login");
+        state.setRouter("/profile/edit");
+        !token && Router.go("/login");
+        token && Router.go("/profile/edit");
       });
 
       const report = this.querySelector(".report");
       report.addEventListener("click", () => {
-        Router.go("/login");
+        state.setRouter("/pets/new");
+        token && Router.go("/pets/new");
+        !token && Router.go("/login");
+      });
+
+      const mascotas = this.querySelector(".mascotas");
+      mascotas.addEventListener("click", () => {
+        state.setRouter("/pets");
+        token && Router.go("/pets");
+        !token && Router.go("/login");
       });
     }
     render() {
