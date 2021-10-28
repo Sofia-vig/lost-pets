@@ -4,7 +4,12 @@ import { state } from "../state";
 customElements.define(
   "menu-component",
   class extends HTMLElement {
+    email: string;
     connectedCallback() {
+      const cs = state.getState();
+
+      this.email = cs?.me?.email;
+
       this.render();
 
       const token = state.getToken();
@@ -51,7 +56,7 @@ customElements.define(
           .container-menu{
             width:100%;
             height:100vh;
-            background: #8AF1FF;
+            background: #a6c6c1;
             display:flex;
             flex-direction:column;
             justify-content:center;
@@ -99,8 +104,13 @@ customElements.define(
             <h4 class="report">Reportar mascota</h4>
           </div>
           <div class="footer-menu">
-            <p>sofa@sofa.com</p>
-            <a href="">CERRAR SESIÓN</a>
+            ${
+              this.email
+                ? ` 
+                <p>${this.email}</p>
+                <a href="">CERRAR SESIÓN</a>`
+                : ""
+            }
           </div>
         </div>
           `;

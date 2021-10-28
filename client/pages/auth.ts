@@ -36,7 +36,7 @@ customElements.define(
       }
       .password{
           height:40px;
-          font-size:24px;
+          font-size:16px;
       }    
       .password-forget{
           color:#40AFFF;
@@ -93,6 +93,7 @@ customElements.define(
       }
       .email{
           height:40px;
+          font-size:16px;
       }    
     `;
 

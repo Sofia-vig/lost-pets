@@ -7,6 +7,7 @@ Report.init(
     reporter_name: DataTypes.STRING,
     phone_number: DataTypes.STRING,
     message: DataTypes.STRING,
+    petId: DataTypes.STRING,
   },
   { sequelize, modelName: "report" }
 );

@@ -3,9 +3,11 @@ customElements.define(
   class extends HTMLElement {
     text: string;
     color: string;
+    type: string = "submit";
     connectedCallback() {
       this.text = this.textContent;
       this.color = this.getAttribute("color");
+      this.type = this.getAttribute("type");
       this.render();
     }
     render() {
@@ -34,7 +36,7 @@ customElements.define(
     `;
       this.innerHTML = `
       <div class="container-button">
-        <button class="button">${this.text}</button>
+        <button type="${this.type}" class="button">${this.text}</button>
       </div>  
         `;
 

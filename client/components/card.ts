@@ -5,7 +5,7 @@ import { Router } from "@vaadin/router";
 customElements.define(
   "pet-card",
   class extends HTMLElement {
-    pets: any[];
+    pets: any[] = [];
     connectedCallback() {
       //Guardo en this.pets todas las mascotas cercanas
       // this.pets = state.getPetsAround();

@@ -17,7 +17,11 @@ export class UserController {
   }
   async getMe(userId) {
     const user = await User.findByPk(userId);
-    return { fullname: user.get("fullname"), email: user.get("email") };
+    if (user) {
+      return { fullname: user.get("fullname"), email: user.get("email") };
+    } else {
+      return { message: "not found" };
+    }
   }
   async getToken(data: { email: string; password: string }) {
     const { email, password } = data;

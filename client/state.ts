@@ -33,6 +33,18 @@ export const state = {
     return find;
   },
 
+  //get my info
+  async getMe() {
+    const token = await this.getToken();
+    const res = await fetch("/me", {
+      method: "get",
+      headers: {
+        Authorization: token ? "bearer " + token : null,
+      },
+    });
+    return await res.json();
+  },
+
   //signIn
   async signIn(email: string, password: string) {
     const request = await fetch("/auth/token", {
@@ -106,6 +118,23 @@ export const state = {
       }),
     });
     return { ok: true };
+  },
+
+  //crear una mascota
+  async createPet(petData) {
+    const token = await this.getToken();
+    const newPet = await fetch("/pets", {
+      method: "put",
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? "bearer " + token : null,
+      },
+      body: JSON.stringify(petData),
+    });
+    const response = await newPet.json();
+    console.log(response);
+
+    return response;
   },
 
   //Setea estado

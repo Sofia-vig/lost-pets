@@ -54,7 +54,7 @@ customElements.define(
         ${
           !position
             ? `<p class="text">Para ver las mascotas reportadas cerca tuyo necesitamos permiso para conocer tu ubicación.</p>
-               <button-component color="#FF9DF5">Dar mi ubicación</button-component>`
+               <button-component color="#debfb5">Dar mi ubicación</button-component>`
             : `<pet-card></pet-card>`
         }
         

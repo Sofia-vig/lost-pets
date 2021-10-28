@@ -19,7 +19,7 @@ customElements.define(
         .header{
             height:60px;
             width:100%;
-            background-color:#FF6868;
+            background-color:#baa6a5;
             display:flex;
             justify-content:space-between;
             padding:13px 20px;

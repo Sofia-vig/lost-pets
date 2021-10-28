@@ -90,7 +90,7 @@ customElements.define(
                 <label>REPETIR CONTRASEÑA</label>
                 <input type="text" name="password-verify" class="password-verify"/>    
             </div>
-            <button-component color="#FF9DF5">Guardar</button-component>
+            <button-component color="#debfb5">Guardar</button-component>
         </form>
       </div>        
       `;
