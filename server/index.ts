@@ -70,7 +70,7 @@ app.get("/me", authMiddleware, async (req, res) => {
 });
 
 //devuelve todas las mascotas reportadas que aun no fueron encontradas
-app.get("/pets", authMiddleware, async (req, res) => {
+app.get("/pets", async (req, res) => {
   const { allPets } = await petController.getAllPetsNotFounded();
   //mascotas cerca usar busqueda de algolia por _geoloc
   res.json({ allPets });

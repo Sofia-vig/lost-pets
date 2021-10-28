@@ -141,14 +141,7 @@ export const state = {
 
   //devuelve las mascotas no encontradas
   async getPets() {
-    const token = await this.getToken();
-    const allPets = await fetch("/pets", {
-      method: "get",
-      headers: {
-        "content-type": "application/json",
-        Authorization: token ? "bearer " + token : null,
-      },
-    });
+    const allPets = await fetch("/pets");
     return await allPets.json();
   },
 
