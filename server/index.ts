@@ -23,12 +23,6 @@ const app = express();
 app.use(express.static("dist"));
 app.use(express.json());
 app.use(cors());
-app.use(
-  bodyParser.json({
-    extended: true,
-    limit: "50mb",
-  })
-);
 
 app.get("/test", async (req, res) => {
   console.log(req._user);

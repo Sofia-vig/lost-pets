@@ -8,6 +8,10 @@ customElements.define(
     connectedCallback() {
       const cs = state.getState();
 
+      state.subscribe(() => {
+        this.email = cs?.me?.email;
+      });
+
       this.email = cs?.me?.email;
 
       this.render();
@@ -38,6 +42,16 @@ customElements.define(
         state.setRouter("/pets");
         token && Router.go("/pets");
         !token && Router.go("/login");
+      });
+
+      const footer = this.querySelector(".footer-menu");
+      const logout = this.querySelector(".logout");
+      logout?.addEventListener("click", () => {
+        footer.textContent = "";
+        const cs = state.getState();
+        cs.me = {};
+        state.setState(cs);
+        state.logOut();
       });
     }
     render() {
@@ -108,7 +122,7 @@ customElements.define(
               this.email
                 ? ` 
                 <p>${this.email}</p>
-                <a href="">CERRAR SESIÓN</a>`
+                <a href="" class="logout">CERRAR SESIÓN</a>`
                 : ""
             }
           </div>

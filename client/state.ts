@@ -1,3 +1,5 @@
+import { Router } from "@vaadin/router";
+
 export const state = {
   data: {},
   listeners: [],
@@ -60,6 +62,9 @@ export const state = {
     const response = await request.json();
     if (response.token) {
       localStorage.setItem("token", response.token);
+      const cs = this.getState();
+      cs.me = { email };
+      this.setState(cs);
       return true;
     } else {
       return false;
@@ -135,6 +140,11 @@ export const state = {
     console.log(response);
 
     return response;
+  },
+
+  logOut() {
+    localStorage.removeItem("token");
+    Router.go("/");
   },
 
   //Setea estado
