@@ -1,7 +1,7 @@
 import { User } from "../models";
 import { getSHA256 } from "../lib/utils";
 import * as jwt from "jsonwebtoken";
-const SECRET = "sofa-secreto-2";
+import { SECRET } from "../lib/utils";
 
 type UserData = { email: string; fullname: string; password: string };
 

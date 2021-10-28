@@ -29,7 +29,7 @@ customElements.define(
         const name = targets.name.value;
         // const lastGeo = targets.location.value;
         state.createPet({
-          image: pictureDataURL,
+          pictureDataURL,
           name,
           lastGeo_lat: 1,
           lastGeo_lon: 2,

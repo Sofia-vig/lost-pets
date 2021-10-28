@@ -129,19 +129,30 @@ export const state = {
   async createPet(petData) {
     const token = await this.getToken();
     const newPet = await fetch("/pets", {
-      method: "put",
+      method: "post",
       headers: {
         "content-type": "application/json",
         Authorization: token ? "bearer " + token : null,
       },
       body: JSON.stringify(petData),
     });
-    const response = await newPet.json();
-    console.log(response);
-
-    return response;
+    return await newPet.json();
   },
 
+  //devuelve las mascotas no encontradas
+  async getPets() {
+    const token = await this.getToken();
+    const allPets = await fetch("/pets", {
+      method: "get",
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? "bearer " + token : null,
+      },
+    });
+    return await allPets.json();
+  },
+
+  //cerrar sesión
   logOut() {
     localStorage.removeItem("token");
     Router.go("/");

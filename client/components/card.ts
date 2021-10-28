@@ -5,10 +5,12 @@ import { Router } from "@vaadin/router";
 customElements.define(
   "pet-card",
   class extends HTMLElement {
-    pets: any[] = [];
-    connectedCallback() {
+    pets: any = [];
+    async connectedCallback() {
+      const { allPets } = await state.getPets();
+
       //Guardo en this.pets todas las mascotas cercanas
-      // this.pets = state.getPetsAround();
+      this.pets = allPets;
 
       this.render();
     }

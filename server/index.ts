@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 4008;
 const app = express();
 
 app.use(express.static("dist"));
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 
 app.get("/test", async (req, res) => {
@@ -62,11 +62,18 @@ app.put("/me", authMiddleware, async (req, res) => {
   res.json(response);
 });
 
-//devuelve mi info
+//devuelve mi info y mis mascotas reportadas
 app.get("/me", authMiddleware, async (req, res) => {
   const userId = req._user.id;
   const me = await userController.getMe(userId);
   res.json(me);
+});
+
+//devuelve todas las mascotas reportadas que aun no fueron encontradas
+app.get("/pets", authMiddleware, async (req, res) => {
+  const { allPets } = await petController.getAllPetsNotFounded();
+  //mascotas cerca usar busqueda de algolia por _geoloc
+  res.json({ allPets });
 });
 
 //crea una nueva mascota (reportar mi mascota perdida)

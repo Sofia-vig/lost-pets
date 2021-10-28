@@ -14,3 +14,26 @@ export const authMiddleware = (req, res, next) => {
     next();
   } catch {}
 };
+
+export { SECRET };
+
+export const bodyToItem = (petId, body) => {
+  const respuesta: any = {};
+  if (body.name) {
+    respuesta.name = body.nombre;
+  }
+  if (body.image) {
+    respuesta.image = body.image;
+  }
+  if (body.lastGeo_lat && body.lastGeo_lon) {
+    respuesta._geoloc = { lat: body.lastGeo_lat, lng: body.lastGeo_lon };
+  }
+  if (body.founded) {
+    respuesta.founded = body.founded;
+  }
+  if (petId) {
+    respuesta.objectID = petId;
+  }
+
+  return respuesta;
+};
