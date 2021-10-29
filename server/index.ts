@@ -20,17 +20,6 @@ const PORT = process.env.PORT || 4008;
 
 const app = express();
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
-  );
-  next();
-});
-
 app.use(express.static("dist"));
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
@@ -78,7 +67,7 @@ app.put("/me", authMiddleware, async (req, res) => {
 });
 
 //devuelve mi info y mis mascotas reportadas
-app.get("/me", async (req, res) => {
+app.get("/me", authMiddleware, async (req, res) => {
   const userId = req._user.id;
   const me = await userController.getMe(userId);
   res.json(me);
