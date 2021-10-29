@@ -1,7 +1,6 @@
 //Express
 import * as express from "express";
 import * as cors from "cors";
-import * as bodyParser from "body-parser";
 
 //Models
 import { User, Pet, Report } from "./models";
@@ -17,6 +16,7 @@ import { authMiddleware } from "./lib/utils";
 // import "./sync";
 
 const PORT = process.env.PORT || 4008;
+console.log(PORT);
 
 const app = express();
 
@@ -42,6 +42,8 @@ app.get("/test", async (req, res) => {
 
 //devuelve true si existe el mail
 app.get("/exist", async (req, res) => {
+  console.log("/exist");
+
   const { email } = req.query;
   const isFind = await userController.findByEmail(email);
   res.json({ find: isFind });
@@ -49,6 +51,7 @@ app.get("/exist", async (req, res) => {
 
 //signup
 app.post("/auth", async (req, res) => {
+  console.log("/auth");
   await userController.createUser(req.body);
   res.json({ ok: true });
 });
@@ -61,6 +64,8 @@ app.post("/auth/token", async (req, res) => {
 
 //actualiza mi data
 app.put("/me", authMiddleware, async (req, res) => {
+  console.log("/me");
+
   const userId = req._user.id;
   const response = await userController.updateUser(userId, req.body);
   res.json(response);
@@ -68,6 +73,8 @@ app.put("/me", authMiddleware, async (req, res) => {
 
 //devuelve mi info y mis mascotas reportadas
 app.get("/me", authMiddleware, async (req, res) => {
+  console.log("/me");
+
   const userId = req._user.id;
   const me = await userController.getMe(userId);
   res.json(me);
