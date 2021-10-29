@@ -22,7 +22,6 @@ const app = express();
 
 app.use(express.static("dist"));
 app.use(express.json({ limit: "50mb" }));
-app.use(cors());
 
 app.get("/test", async (req, res) => {
   console.log(req._user);
