@@ -1,5 +1,5 @@
 {
-  "name": "desafio-final-game",
+  "name": "dwf-m7",
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
@@ -25,7 +25,7 @@
     "dev:front": "parcel serve ./client/index.html",
     "build:front": "parcel build ./client/index.html",
     "build:api": "tsc ./server/index.ts",
-    "build": "npm build:front & npm build:api",
+    "build": "npm run build:front & npm run build:api",
     "start": "node ./server/index.js"
   }
 }
