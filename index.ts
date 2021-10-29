@@ -20,13 +20,20 @@ const PORT = process.env.PORT || 4008;
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:1234",
-};
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json"
+  );
+  next();
+});
 
 app.use(express.static("dist"));
 app.use(express.json({ limit: "50mb" }));
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get("/testt", (req, res) => {
   res.json({ ok: "true" });
