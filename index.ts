@@ -78,7 +78,7 @@ app.put("/me", authMiddleware, async (req, res) => {
 });
 
 //devuelve mi info y mis mascotas reportadas
-app.get("/me", authMiddleware, async (req, res) => {
+app.get("/me", async (req, res) => {
   const userId = req._user.id;
   const me = await userController.getMe(userId);
   res.json(me);
