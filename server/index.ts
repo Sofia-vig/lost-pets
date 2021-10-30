@@ -11,9 +11,10 @@ import { UserController, PetController } from "./controllers";
 const userController = new UserController();
 const petController = new PetController();
 
-//utils
+//Utils
 import { authMiddleware } from "./lib/utils";
 
+//Sync
 // import "./sync";
 
 const PORT = process.env.PORT || 4008;
@@ -24,10 +25,6 @@ const app = express();
 app.use(express.static("dist"));
 app.use(express.json({ limit: "100mb" }));
 app.use(cors());
-
-app.get("/testt", (req, res) => {
-  res.json({ ok: "true" });
-});
 
 app.get("/test", async (req, res) => {
   console.log(req._user);
@@ -102,10 +99,10 @@ app.put("/pets/:petId", authMiddleware, async (req, res) => {
   res.json({ ok: true });
 });
 
-app.use(express.static(path.resolve(__dirname, "../fe-dist")));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../fe-dist/index.html"));
-});
+// app.use(express.static(path.resolve(__dirname, "../fe-dist")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../fe-dist/index.html"));
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

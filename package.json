@@ -21,12 +21,11 @@
     "parcel": "^2.0.0-rc.0"
   },
   "scripts": {
-    "dev:be": "nodemon --watch './be-src/index.ts' --exec 'ts-node ./be-src/index.ts'",
-    "dev:fe": "parcel serve ./fe-src/index.html --dist-dir ./fe-dist",
-    "dev": "yarn dev:fe && yarn dev:be",
-    "build:be": "tsc",
-    "build:fe": "parcel build ./fe-src/index.html --dist-dir ./fe-dist",
-    "build": "yarn build:be && yarn build:fe",
-    "start": "node ./be-dist/index.js"
+    "dev:front": "parcel serve ./client/index.html",
+    "dev:api": "nodemon --watch './server/index.ts' --exec 'ts-node ./server/index.ts'",
+    "build:front": "parcel build ./client/index.html",
+    "build:api": "tsc ./server/index.ts",
+    "build": "yarn build:front && yarn build:api",
+    "start": "node ./server/index.js"
   }
 }

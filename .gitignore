@@ -1,5 +1,5 @@
-be-dist
-fe-dist
 node_modules
+dist
 .parcel-cache
-.env
+index.js
+db.js

@@ -17,3 +17,8 @@ import "./components/card";
   currentState.me = me;
   state.setState(currentState);
 })();
+
+console.log("hola");
+fetch("/test")
+  .then((res) => res.json())
+  .then((data) => console.log(data));
