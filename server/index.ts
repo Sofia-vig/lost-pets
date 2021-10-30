@@ -2,6 +2,7 @@
 import * as express from "express";
 import * as cors from "cors";
 import * as path from "path";
+require("dotenv").config();
 
 //Models
 import { User, Pet, Report } from "./models";
@@ -18,7 +19,6 @@ import { authMiddleware } from "./lib/utils";
 // import "./sync";
 
 const PORT = process.env.PORT || 4008;
-console.log(PORT);
 
 const app = express();
 
@@ -27,8 +27,6 @@ app.use(express.json({ limit: "100mb" }));
 app.use(cors());
 
 app.get("/test", async (req, res) => {
-  console.log(req._user);
-
   const allUsers = await User.findAll();
 
   const allPets = await Pet.findAll();
@@ -40,8 +38,6 @@ app.get("/test", async (req, res) => {
 
 //devuelve true si existe el mail
 app.get("/exist", async (req, res) => {
-  console.log("/exist");
-
   const { email } = req.query;
   const isFind = await userController.findByEmail(email);
   res.json({ find: isFind });
@@ -49,7 +45,6 @@ app.get("/exist", async (req, res) => {
 
 //signup
 app.post("/auth", async (req, res) => {
-  console.log("/auth");
   await userController.createUser(req.body);
   res.json({ ok: true });
 });
@@ -71,8 +66,6 @@ app.put("/me", authMiddleware, async (req, res) => {
 
 //devuelve mi info y mis mascotas reportadas
 app.get("/me", authMiddleware, async (req, res) => {
-  console.log("/me");
-
   const userId = req._user.id;
   const me = await userController.getMe(userId);
   res.json(me);
@@ -98,11 +91,6 @@ app.put("/pets/:petId", authMiddleware, async (req, res) => {
   await petController.updatePet(petId, req.body);
   res.json({ ok: true });
 });
-
-// app.use(express.static(path.resolve(__dirname, "../fe-dist")));
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../fe-dist/index.html"));
-// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
