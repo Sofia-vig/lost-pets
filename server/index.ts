@@ -2,6 +2,8 @@
 import * as express from "express";
 import * as cors from "cors";
 import * as path from "path";
+
+//Enviroment
 require("dotenv").config();
 
 //Models
@@ -22,7 +24,6 @@ const PORT = process.env.PORT || 4008;
 
 const app = express();
 
-app.use(express.static("dist"));
 app.use(express.json({ limit: "100mb" }));
 app.use(cors());
 
@@ -90,6 +91,19 @@ app.put("/pets/:petId", authMiddleware, async (req, res) => {
   const { petId } = req.params;
   await petController.updatePet(petId, req.body);
   res.json({ ok: true });
+});
+
+//devuelve mis mascotas reportadas
+app.get("/me/pets", authMiddleware, async (req, res) => {
+  console.log(req._user.id);
+
+  const myPets = await petController.getPetsByUserId(req._user.id);
+  res.json({ myPets });
+});
+
+app.use(express.static(path.resolve(__dirname, "../dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../dist/index.html"));
 });
 
 app.listen(PORT, () => {

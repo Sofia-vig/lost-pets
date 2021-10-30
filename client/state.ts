@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { getAutomaticTypeDirectiveNames } from "typescript";
 
 export const state = {
   data: {},
@@ -143,6 +144,18 @@ export const state = {
   async getPets() {
     const allPets = await fetch("/pets");
     return await allPets.json();
+  },
+
+  //devuelve mis mascotas reportadas
+  async getMyPets() {
+    const token = await this.getToken();
+    const myPets = await fetch("/me/pets", {
+      method: "get",
+      headers: {
+        Authorization: token ? "bearer " + token : null,
+      },
+    });
+    return myPets.json();
   },
 
   //cerrar sesión

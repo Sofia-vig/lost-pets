@@ -39,8 +39,8 @@ customElements.define(
 
       const mascotas = this.querySelector(".mascotas");
       mascotas.addEventListener("click", () => {
-        state.setRouter("/pets");
-        token && Router.go("/pets");
+        state.setRouter("/me/pets");
+        token && Router.go("/me/pets");
         !token && Router.go("/login");
       });
 
@@ -70,31 +70,33 @@ customElements.define(
           .container-menu{
             width:100%;
             height:100vh;
-            background: #a6c6c1;
+            background: #2e2e2e;
             display:flex;
             flex-direction:column;
             justify-content:center;
             align-items:center;
           }
           .text-menu{
-              font-size:24px;
-              font-weight:700;
-              padding: 0 104px;
-              text-align:center;
-              display:flex;
-              flex-direction:column;
-              gap:45px;
-              margin-bottom:200px;
+            font-size:24px;
+            font-weight:700;
+            padding: 0 104px;
+            text-align:center;
+            display:flex;
+            flex-direction:column;
+            gap:45px;
+            margin-bottom:200px;
+            color:#ECF0F1;
           }
           .footer-menu{
               text-align:center;
           }
           .footer-menu p {
               font-size:24px;
+              color:#ECF0F1;
           }
           .footer-menu a {
               font-size:16px;
-              color: #C6558B;
+              color:#ECF0F1;
           }
           .close{
             font-size:24px;
@@ -102,6 +104,7 @@ customElements.define(
             position:fixed;
             top:10px;
             left:10px;
+            color:#ECF0F1;
           }
           .hide{
             display:none;

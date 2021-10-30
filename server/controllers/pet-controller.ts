@@ -60,4 +60,8 @@ export class PetController {
     const allPets = await Pet.findAll({ where: { founded: false } });
     return { allPets };
   }
+  async getPetsByUserId(userId) {
+    const pets = await Pet.findAll({ where: { userId: userId } });
+    return pets || [];
+  }
 }

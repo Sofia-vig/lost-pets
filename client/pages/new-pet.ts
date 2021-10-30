@@ -1,5 +1,6 @@
 import { state } from "../state";
 import { Dropzone } from "dropzone";
+import { Router } from "@vaadin/router";
 
 customElements.define(
   "newpet-page",
@@ -22,18 +23,20 @@ customElements.define(
         filePic = file;
       });
 
+      //Creo la mascota con todos los datos
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const targets = event.target as any;
         const pictureDataURL = filePic.dataURL;
         const name = targets.name.value;
         // const lastGeo = targets.location.value;
-        state.createPet({
+        await state.createPet({
           pictureDataURL,
           name,
           lastGeo_lat: 1,
           lastGeo_lon: 2,
         });
+        Router.go("/me/pets");
       });
     }
     render() {
@@ -60,16 +63,30 @@ customElements.define(
           display:flex;
           flex-direction:column;
           margin:15px 0;
+          color:#EDEDED;
       }
       .input-text{
           height:50px;
           font-size:24px;
+          color:black;
+          font-weight:500;
+          background-color:#ECF0F1;
+          border:0;
+          font-family:"Dosis";
+      }
+      input[type=text]:focus {
+       outline:none;
       }
       .container-pic{
         margin-bottom:10px;
         height:140px;
-        border: 3px solid #5297ac;
+        border: 3px solid #EDEDED;
         border-radius:4px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:30px;
+        color:#EDEDED;
       }
       .pic{
        background:grey;
@@ -87,6 +104,7 @@ customElements.define(
       .text{
         font-size:16px;
         font-weight:500;
+        color:#EDEDED;
       }
       .cancelar{
         margin-top:20px;
@@ -104,8 +122,8 @@ customElements.define(
                 </div>
                 <div class="container-pic">
                     <img class="pic"/>
+                    agregar/modificar foto
                 </div>
-                <button-component type="button" color="#debfb5">agregar/modificar foto</button-component>
                 <div class="map"></div>
                 <div class="input-item">
                     <label>UBICACIÓN</label>

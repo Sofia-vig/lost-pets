@@ -25,13 +25,14 @@ customElements.define(
             align-items:center;
         }
         .button{
-            background-color:${this.color};
+            background-color:#585858;
             width:335px;
             height:50px;
             border:none;
             border-radius:4px;
-            font-size:16px;
+            font-size:20px;
             font-weight:700;
+            font-family:"Dosis";
         }
     `;
       this.innerHTML = `

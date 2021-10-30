@@ -1,7 +1,7 @@
 import { state } from "../state";
 
 customElements.define(
-  "home-page",
+  "mypets-page",
   class extends HTMLElement {
     connectedCallback() {
       this.render();
@@ -51,14 +51,8 @@ customElements.define(
       this.innerHTML = `
       <header-component></header-component>
       <div class="container">
-        <title-component>Mascotas perdidas cerca tuyo</title-component>
-        ${
-          !position
-            ? `<p class="text">Para ver las mascotas reportadas cerca tuyo necesitamos permiso para conocer tu ubicación.</p>
-               <button-component color="#debfb5">Dar mi ubicación</button-component>`
-            : `<pet-card></pet-card>`
-        }
-        
+        <title-component>Mis mascotas  reportadas</title-component>
+        <pet-card type="me"></pet-card>      
       </div>  
       
       `;

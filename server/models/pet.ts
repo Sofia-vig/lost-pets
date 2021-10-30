@@ -9,7 +9,7 @@ Pet.init(
     lastGeo_lat: DataTypes.FLOAT,
     lastGeo_lon: DataTypes.FLOAT,
     founded: DataTypes.BOOLEAN,
-    userId: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
   },
   { sequelize, modelName: "pet" }
 );

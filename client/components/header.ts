@@ -1,3 +1,5 @@
+import { Router } from "@vaadin/router";
+
 const icon = require("url:../img/icon.png");
 
 customElements.define(
@@ -5,6 +7,10 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
+
+      this.querySelector(".icon").addEventListener("click", () =>
+        Router.go("/")
+      );
     }
     render() {
       const style = document.createElement("style");
@@ -19,7 +25,7 @@ customElements.define(
         .header{
             height:60px;
             width:100%;
-            background-color:#baa6a5;
+            background-color:#888888;
             display:flex;
             justify-content:space-between;
             padding:13px 20px;

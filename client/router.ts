@@ -6,6 +6,7 @@ import "./pages/report";
 import "./pages/auth";
 import "./pages/datos";
 import "./pages/new-pet";
+import "./pages/mypets";
 
 const router = new Router(document.querySelector(".root"));
 router.setRoutes([
@@ -14,4 +15,5 @@ router.setRoutes([
   { path: "/login", component: "auth-page" },
   { path: "/profile/edit", component: "datos-page" },
   { path: "/pets/new", component: "newpet-page" },
+  { path: "/me/pets", component: "mypets-page" },
 ]);

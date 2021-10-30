@@ -32,6 +32,7 @@ customElements.define(
           display:flex;
           flex-direction:column;
           padding:33px 32px;
+          color:#EDEDED;
       }
       .form-report{
           display:flex;
@@ -46,11 +47,23 @@ customElements.define(
       .input-text{
           height:50px;
           font-size:24px;
+          background-color:#ECF0F1;
+          border:0;    
+          font-family:"Dosis";      
       }
       .input-textarea{
           height:120px;
           font-size:24px;
+          background-color:#ECF0F1;
+          border:0;
+          font-family:"Dosis";
       } 
+      input[type=text]:focus {
+        outline:none;
+       }
+       textarea:focus{
+         outline:none;
+       }
       `;
 
       this.innerHTML = `

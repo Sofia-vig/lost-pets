@@ -19,6 +19,7 @@ customElements.define(
             font-size:40px;
             margin:0;
             font-weight:bold;
+            color:#ECF0F1;
           }
         
       `;
