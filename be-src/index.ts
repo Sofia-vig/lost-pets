@@ -1,6 +1,7 @@
 //Express
 import * as express from "express";
 import * as cors from "cors";
+import * as path from "path";
 
 //Models
 import { User, Pet, Report } from "./models";
@@ -21,7 +22,7 @@ console.log(PORT);
 const app = express();
 
 app.use(express.static("dist"));
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "100mb" }));
 app.use(cors());
 
 app.get("/testt", (req, res) => {
@@ -99,6 +100,11 @@ app.put("/pets/:petId", authMiddleware, async (req, res) => {
   const { petId } = req.params;
   await petController.updatePet(petId, req.body);
   res.json({ ok: true });
+});
+
+app.use(express.static(path.resolve(__dirname, "../fe-dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../fe-dist/index.html"));
 });
 
 app.listen(PORT, () => {
