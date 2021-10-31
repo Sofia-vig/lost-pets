@@ -80,6 +80,19 @@ app.get("/pets", async (req, res) => {
   res.json({ allPets });
 });
 
+//devuelve mis mascotas reportadas
+app.get("/me/pets", authMiddleware, async (req, res) => {
+  const myPets = await petController.getPetsByUserId(req._user.id);
+  res.json({ myPets });
+});
+
+//devuelve una mascota por su id
+app.get("/pets/:petId", authMiddleware, async (req, res) => {
+  const { petId } = req.params;
+  const pet = await petController.getPetById(petId);
+  res.json(pet);
+});
+
 //crea una nueva mascota (reportar mi mascota perdida)
 app.post("/pets", authMiddleware, async (req, res) => {
   const userId = req._user.id;
@@ -88,18 +101,10 @@ app.post("/pets", authMiddleware, async (req, res) => {
 });
 
 // actualizar mascota reportada
-app.put("/pets/:petId", authMiddleware, async (req, res) => {
+app.put("/pets/:petId", async (req, res) => {
   const { petId } = req.params;
   await petController.updatePet(petId, req.body);
   res.json({ ok: true });
-});
-
-//devuelve mis mascotas reportadas
-app.get("/me/pets", authMiddleware, async (req, res) => {
-  console.log(req._user.id);
-
-  const myPets = await petController.getPetsByUserId(req._user.id);
-  res.json({ myPets });
 });
 
 app.post("/pets/report", async (req, res) => {

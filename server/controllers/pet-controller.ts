@@ -48,7 +48,10 @@ export class PetController {
       data.image = imagen.secure_url;
     }
 
-    await Pet.update(data, { where: { id: petId } });
+    console.log(petId);
+
+    const response = await Pet.update(data, { where: { id: petId } });
+    console.log(response);
 
     const dataUpdate = bodyToItem(petId, data);
 
@@ -63,5 +66,9 @@ export class PetController {
   async getPetsByUserId(userId) {
     const pets = await Pet.findAll({ where: { userId: userId } });
     return pets || [];
+  }
+  async getPetById(petId) {
+    const pet = await Pet.findByPk(petId);
+    return pet;
   }
 }

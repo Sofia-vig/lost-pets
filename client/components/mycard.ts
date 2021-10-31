@@ -62,15 +62,17 @@ customElements.define(
             <div class="card-info">
                 <h2 class="card-name">${capitalize(pet.name)}</h2>
                 <h3 class="card-place">${capitalize(pet.place)}</h3>       
-                <a class="card-link" href="">EDITAR</a> 
+                <a class="card-link">EDITAR</a> 
             </div>    
         </div>`;
 
         //Si clickea en editar va a la pagina para editar
-        div.querySelector(".card-link")?.addEventListener("click", (e) => {
-          //Hay que pasar el id de la mascota
-          state.setReportName(capitalize(pet.name));
-          Router.go("/report");
+        div.querySelector(".card-link")?.addEventListener("click", async () => {
+          await state.setPetById(pet.id);
+          const cs = state.getState();
+          cs.update = true;
+          state.setState(cs);
+          Router.go("/pets/new");
         });
 
         this.appendChild(div);

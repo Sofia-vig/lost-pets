@@ -5,11 +5,29 @@ import { Router } from "@vaadin/router";
 customElements.define(
   "newpet-page",
   class extends HTMLElement {
+    petData: any;
     petName: string;
+    update: boolean;
     connectedCallback() {
       this.petName = state.getState().reportName;
+      const cs = state.getState();
+
+      if (cs.update) {
+        this.petData = cs.petData;
+        this.update = true;
+      }
 
       this.render();
+
+      if (cs.update) {
+        cs.update = false;
+        state.setState(cs);
+        const container = this.querySelector(".container-pic");
+        const img = this.querySelector(".pic");
+        container.textContent = "";
+        (img as any).src = this.petData.image;
+        container.append(img);
+      }
 
       const form = document.querySelector(".form-pet");
 
@@ -17,27 +35,57 @@ customElements.define(
       const myDropzone = new Dropzone(".container-pic", {
         url: "/falsa",
         autoProcessQueue: false,
+        previewTemplate: document.querySelector(".container-pic").innerHTML,
       });
 
       myDropzone.on("addedfile", function (file) {
         filePic = file;
       });
 
-      //Creo la mascota con todos los datos
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const targets = event.target as any;
-        const pictureDataURL = filePic.dataURL;
-        const name = targets.name.value;
-        // const lastGeo = targets.location.value;
-        await state.createPet({
-          pictureDataURL,
-          name,
-          lastGeo_lat: 1,
-          lastGeo_lon: 2,
-        });
-        Router.go("/me/pets");
+      myDropzone.on("thumbnail", (file, dataUrl) => {
+        const container = this.querySelector(".container-pic");
+        const img = this.querySelector(".pic");
+        container.textContent = "";
+        (img as any).src = dataUrl;
+        container.append(img);
       });
+
+      if (!this.update) {
+        //Creo la mascota con todos los datos
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const targets = event.target as any;
+          const pictureDataURL = filePic.dataURL;
+          const name = targets.name.value;
+          // const lastGeo = targets.location.value;
+          await state.createPet({
+            pictureDataURL,
+            name,
+            lastGeo_lat: 1,
+            lastGeo_lon: 2,
+          });
+          Router.go("/me/pets");
+        });
+      } else {
+        //Actualizo la mascota con todos los datos
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const targets = event.target as any;
+          const pictureDataURL = filePic?.dataURL;
+          const name = targets.name.value;
+          // const lastGeo = targets.location.value;
+
+          await state.updatePet({
+            pictureDataURL,
+            name,
+            lastGeo_lat: 1,
+            lastGeo_lon: 2,
+            id: this.petData.id,
+          });
+
+          Router.go("/me/pets");
+        });
+      }
     }
     render() {
       const style = document.createElement("style");
@@ -78,8 +126,7 @@ customElements.define(
        outline:none;
       }
       .container-pic{
-        margin-bottom:10px;
-        height:140px;
+        margin: 0 auto 10px auto;
         border: 3px solid #EDEDED;
         border-radius:4px;
         display:flex;
@@ -87,8 +134,12 @@ customElements.define(
         align-items:center;
         font-size:30px;
         color:#EDEDED;
+        text-align:center;
+        padding:15px;
       }
       .pic{
+        ${this.update ? `width:250px;` : ""}
+        ${this.update ? `height:250px;` : ""}
        background:grey;
        display:flex;
        justify-content:center;
@@ -114,11 +165,17 @@ customElements.define(
       this.innerHTML = `
         <header-component></header-component>
         <div class="container">
-             <title-component>Reportar mascota perdida</title-component>
+           ${
+             this.update
+               ? `<title-component>Editar mascota perdida</title-component>`
+               : `<title-component>Reportar mascota perdida</title-component>`
+           } 
              <form class="form-pet">
                 <div class="input-item">
                     <label>NOMBRE</label>
-                    <input type="text" name="name" class="input-text"/>
+                    <input type="text" name="name" class="input-text" placeholder="${
+                      this.update ? this.petData.name : ""
+                    }"/>
                 </div>
                 <div class="container-pic">
                     <img class="pic"/>
@@ -130,8 +187,12 @@ customElements.define(
                     <input type="text" name="location" class="input-text"/>
                 </div>
                 <p class="text">Buscá un punto de referencia para reportar a tu mascota. Puede ser una dirección, un barrio o una ciudad.</p>
-                <button-component type="submit">Reportar como perdido</button-component>
-                <button-component type="button" class="cancelar">Cancelar</button-component>
+                <button-component type="submit">${
+                  this.update ? "Guardar" : "Reportar como perdido"
+                }</button-component>
+                <button-component type="button" class="cancelar">${
+                  this.update ? "Reportar como encontrado" : "Cancelar"
+                }</button-component>
 
              </form>
         </div>  

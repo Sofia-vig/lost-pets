@@ -1,5 +1,5 @@
 import { Router } from "@vaadin/router";
-import { getAutomaticTypeDirectiveNames } from "typescript";
+import { getAutomaticTypeDirectiveNames, updateParameter } from "typescript";
 
 export const state = {
   data: {},
@@ -140,6 +140,20 @@ export const state = {
     return await newPet.json();
   },
 
+  async updatePet(petData) {
+    const token = await this.getToken();
+    const petUpdate = await fetch("/pets/" + petData.id, {
+      method: "put",
+      headers: {
+        "content-type": "application/json",
+        Authorization: token ? "bearer " + token : null,
+      },
+      body: JSON.stringify(petData),
+    });
+    const response = await petUpdate.json();
+    console.log(response);
+  },
+
   //devuelve las mascotas no encontradas
   async getPets() {
     const allPets = await fetch("/pets");
@@ -169,6 +183,28 @@ export const state = {
       body: JSON.stringify(data),
     });
     return await newReport.json();
+  },
+
+  async setPetById(petId) {
+    const token = await this.getToken();
+    const pet = await fetch("/pets/" + petId, {
+      method: "get",
+      headers: {
+        Authorization: token ? "bearer " + token : null,
+      },
+    });
+    const response = await pet.json();
+    const { name, image, lastGeo_lat, lastGeo_lon } = response;
+    const data = {
+      name,
+      image,
+      lastGeo_lat,
+      lastGeo_lon,
+      id: petId,
+    };
+    const cs = this.getState();
+    cs.petData = data;
+    this.setState(cs);
   },
 
   //cerrar sesión
