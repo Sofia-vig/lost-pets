@@ -72,6 +72,7 @@ customElements.define(
           //Hay que pasar el id de la mascota
           const cs = state.getState();
           cs.petId = pet.id;
+          cs.petUserId = pet.userId;
           state.setState(cs);
           state.setReportName(capitalize(pet.name));
           Router.go("/report");

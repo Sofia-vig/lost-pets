@@ -3,6 +3,12 @@ import * as express from "express";
 import * as cors from "cors";
 import * as path from "path";
 
+//Send grid
+import { sgMail } from "./lib/sendgrid";
+
+//Lodash
+import { capitalize } from "lodash";
+
 //Enviroment
 require("dotenv").config();
 
@@ -107,8 +113,37 @@ app.put("/pets/:petId", async (req, res) => {
   res.json({ ok: true });
 });
 
+//cuando una pérsona reporta que vio una mascota y se manda mail de notificacion
 app.post("/pets/report", async (req, res) => {
+  const { reporter_name, phone_number, message, petId, userId } = req.body;
   const newReport = await reportController.reportPet(req.body);
+  const user = await userController.findById(userId);
+  const pet = await petController.getPetById(petId);
+  const email = user.get("email");
+  const name = pet.get("name");
+
+  const msg = {
+    to: email,
+    from: "sofiavign@gmail.com",
+    subject: `Una persona vio a ${capitalize(name)}!!!`,
+    text: `Alguien vio a tu mascota perdida`,
+    html: `<h1>${capitalize(reporter_name)} vio a tu mascota!</h1>
+          <h3>Mensaje: ${message}</h3>
+          <p>Te dejamos su numero de telefono para que te comuniques:</p>
+          <h2>${phone_number}</h2>
+          <p>Lost-Pets</p>    `,
+  };
+  (async () => {
+    try {
+      await sgMail.send(msg);
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    }
+  })();
   res.json(newReport);
 });
 

@@ -40,6 +40,10 @@ export class UserController {
     const user = await User.findOne({ where: { email } });
     return user ? true : false;
   }
+  async findById(userId) {
+    const user = await User.findByPk(userId);
+    return user;
+  }
   async updateUser(userId, data) {
     const { fullname, password } = data;
     if (fullname && password) {

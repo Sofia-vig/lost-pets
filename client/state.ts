@@ -185,6 +185,7 @@ export const state = {
     return await newReport.json();
   },
 
+  //setea en el estado data de una mascota por su id
   async setPetById(petId) {
     const token = await this.getToken();
     const pet = await fetch("/pets/" + petId, {

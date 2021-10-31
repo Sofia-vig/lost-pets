@@ -6,10 +6,12 @@ customElements.define(
   class extends HTMLElement {
     petName: string;
     petId;
+    petUserId;
     connectedCallback() {
       const cs = state.getState();
       this.petName = cs.reportName;
       this.petId = cs.petId;
+      this.petUserId = cs.petUserId;
 
       this.render();
 
@@ -25,6 +27,7 @@ customElements.define(
           phone_number,
           message,
           petId: this.petId,
+          userId: this.petUserId,
         });
 
         const container = this.querySelector(".container");
