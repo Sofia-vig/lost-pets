@@ -2,13 +2,19 @@ import { state } from "../state";
 import { Dropzone } from "dropzone";
 import { Router } from "@vaadin/router";
 
+import * as MapboxClient from "mapbox";
+import * as mapboxgl from "mapbox-gl";
+
+const MAPBOX_TOKEN =
+  "pk.eyJ1Ijoic29maWExIiwiYSI6ImNrdmV0a2d5NTB2dnQydm8wNG83eWoyeGIifQ.NVBPhXDuWe-mw4LS8D3GBw";
+
 customElements.define(
   "newpet-page",
   class extends HTMLElement {
     petData: any;
     petName: string;
     update: boolean;
-    connectedCallback() {
+    async connectedCallback() {
       this.petName = state.getState().reportName;
       const cs = state.getState();
 
@@ -18,6 +24,8 @@ customElements.define(
       }
 
       this.render();
+
+      await this.mapbox();
 
       if (cs.update) {
         cs.update = false;
@@ -59,11 +67,14 @@ customElements.define(
           const name = targets.name.value;
           const place = targets.location.value;
 
+          const cs = state.getState();
+          const { lat, lng } = cs.petLocation;
+
           await state.createPet({
             pictureDataURL,
             name,
-            lastGeo_lat: 1,
-            lastGeo_lon: 2,
+            lastGeo_lat: lat,
+            lastGeo_lon: lng,
             place,
           });
           Router.go("/me/pets");
@@ -82,11 +93,14 @@ customElements.define(
           const name = targets.name.value;
           const place = targets.location.value;
 
+          const cs = state.getState();
+          const { lat, lng } = cs.petLocation;
+
           await state.updatePet({
             pictureDataURL,
             name: name || this.petData.name,
-            lastGeo_lat: 1,
-            lastGeo_lon: 2,
+            lastGeo_lat: lat,
+            lastGeo_lon: lng,
             place,
             id: this.petData.id,
           });
@@ -134,6 +148,56 @@ customElements.define(
           }, 4000);
         });
       }
+    }
+    async mapbox() {
+      const mapboxClient = new MapboxClient(MAPBOX_TOKEN);
+
+      function initMap() {
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        return new mapboxgl.Map({
+          container: "map",
+          style: "mapbox://styles/mapbox/streets-v11",
+        });
+      }
+
+      function initSearchForm(callback) {
+        const form = document.querySelector(".mapbox-button");
+
+        form.addEventListener("click", (e: any) => {
+          const location = document.querySelector(".location");
+          const locationValue = (location as any).value;
+          mapboxClient.geocodeForward(
+            locationValue,
+            {
+              autocomplete: true,
+              language: "es",
+            },
+            function (err, data, res) {
+              console.log(data);
+              if (!err) callback(data.features);
+            }
+          );
+        });
+      }
+
+      const mapa = initMap();
+      initSearchForm(function (results) {
+        const firstResult = results[0];
+
+        const marker = new mapboxgl.Marker()
+          .setLngLat(firstResult.geometry.coordinates)
+          .addTo(mapa);
+
+        const [lng, lat] = firstResult.geometry.coordinates;
+        const cs = state.getState();
+        cs.petLocation = { lng, lat };
+        state.setState(cs);
+
+        new mapboxgl.Marker().setLngLat([lng, lat]).addTo(mapa);
+
+        mapa.setCenter(firstResult.geometry.coordinates);
+        mapa.setZoom(14);
+      });
     }
     render() {
       const style = document.createElement("style");
@@ -193,7 +257,7 @@ customElements.define(
        justify-content:center;
        align-items:center;
       }
-      .map{
+      #map{
         width:100%;
         height:200px;
         background-color:black;
@@ -207,6 +271,17 @@ customElements.define(
       }
       .cancelar{
         margin-top:20px;
+      }
+      .mapbox-button{
+            background-color:#585858;
+            width:335px;
+            height:50px;
+            border:none;
+            border-radius:4px;
+            font-size:20px;
+            font-weight:700;
+            font-family:"Dosis";
+            margin-top:6px;
       }
    `;
 
@@ -229,11 +304,11 @@ customElements.define(
                     <img class="pic"/>
                     agregar/modificar foto
                 </div>
-                <div class="map"></div>
-                <div id="map" style="width: 100%; height: 100%"></div>
+                <div id="map"></div>
                 <div class="input-item">
                     <label>UBICACIÓN</label>
-                    <input type="text" name="location" class="input-text"/>
+                    <input type="search" name="location" class="input-text location"/>
+                    <button type="button" class="mapbox-button">Guardar Ubicación</button>
                 </div>
                 <p class="text">Buscá un punto de referencia para reportar a tu mascota. Puede ser una dirección, un barrio o una ciudad.</p>
                 <button-component type="submit">${

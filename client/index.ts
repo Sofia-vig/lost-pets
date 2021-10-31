@@ -19,6 +19,6 @@ import "./components/mycard";
   state.setState(currentState);
 })();
 
-fetch("/test")
-  .then((res) => res.json())
-  .then((data) => console.log(data));
+// fetch("/test")
+//   .then((res) => res.json())
+//   .then((data) => console.log(data));
