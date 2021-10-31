@@ -8,6 +8,7 @@ Pet.init(
     image: DataTypes.STRING,
     lastGeo_lat: DataTypes.FLOAT,
     lastGeo_lon: DataTypes.FLOAT,
+    place: DataTypes.STRING,
     founded: DataTypes.BOOLEAN,
     userId: DataTypes.INTEGER,
   },

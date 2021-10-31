@@ -10,7 +10,7 @@ import { sgMail } from "./lib/sendgrid";
 import { capitalize } from "lodash";
 
 //Enviroment
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 //Models
 import { User, Pet, Report } from "./models";
@@ -81,8 +81,8 @@ app.get("/me", authMiddleware, async (req, res) => {
 
 //devuelve todas las mascotas reportadas que aun no fueron encontradas
 app.get("/pets", async (req, res) => {
-  const { allPets } = await petController.getAllPetsNotFounded();
-  //mascotas cerca usar busqueda de algolia por _geoloc
+  const { lat, lng } = req.query;
+  const { allPets } = await petController.getAllPetsNotFounded({ lat, lng });
   res.json({ allPets });
 });
 
@@ -133,7 +133,6 @@ app.post("/pets/report", async (req, res) => {
           <h2>${phone_number}</h2>
           <p>Lost-Pets</p>    `,
   };
-
   (async () => {
     try {
       await sgMail.send(msg);
@@ -145,7 +144,6 @@ app.post("/pets/report", async (req, res) => {
       }
     }
   })();
-
   res.json(newReport);
 });
 

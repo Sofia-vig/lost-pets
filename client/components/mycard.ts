@@ -64,7 +64,7 @@ customElements.define(
             <img class="card-image" src="${pet.image}"/>
             <div class="card-info">
                 <h2 class="card-name">${capitalize(pet.name)}</h2>
-                <h3 class="card-place">Villa Maria</h3>       
+                <h3 class="card-place">${capitalize(pet.place)}</h3>       
                 <a class="card-link">EDITAR</a> 
             </div>    
         </div>`;

@@ -156,7 +156,8 @@ export const state = {
 
   //devuelve las mascotas no encontradas
   async getPets() {
-    const allPets = await fetch("/pets");
+    const { lat, long } = this.getPosition();
+    const allPets = await fetch(`/pets?lat=${lat}&lng=${long}`);
     return await allPets.json();
   },
 

@@ -39,11 +39,13 @@ customElements.define(
           font-size:40px;
           font-weight:700;
           color:#ECF0F1;
-          margin:3px;
+          margin:0;
       }
       .card-place{
-          font-size:16px;
-          margin:0 0 15px 0;
+        font-size:24px;
+        font-weight:700;
+        color:#ECF0F1;
+        margin:0 0 5px 0;
       }
       .card-link{
           color:#ECF0F1;
@@ -71,7 +73,7 @@ customElements.define(
         div.querySelector(".card-link")?.addEventListener("click", (e) => {
           //Hay que pasar el id de la mascota
           const cs = state.getState();
-          cs.petId = pet.id;
+          cs.petId = pet.objectID;
           cs.petUserId = pet.userId;
           state.setState(cs);
           state.setReportName(capitalize(pet.name));

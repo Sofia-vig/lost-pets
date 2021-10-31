@@ -57,12 +57,14 @@ customElements.define(
           const targets = event.target as any;
           const pictureDataURL = filePic.dataURL;
           const name = targets.name.value;
-          // const lastGeo = targets.location.value;
+          const place = targets.location.value;
+
           await state.createPet({
             pictureDataURL,
             name,
             lastGeo_lat: 1,
             lastGeo_lon: 2,
+            place,
           });
           Router.go("/me/pets");
         });
@@ -78,13 +80,14 @@ customElements.define(
           const targets = event.target as any;
           const pictureDataURL = filePic?.dataURL;
           const name = targets.name.value;
-          // const lastGeo = targets.location.value;
+          const place = targets.location.value;
 
           await state.updatePet({
             pictureDataURL,
             name: name || this.petData.name,
             lastGeo_lat: 1,
             lastGeo_lon: 2,
+            place,
             id: this.petData.id,
           });
 
@@ -120,7 +123,7 @@ customElements.define(
           body.innerHTML = `
           <div class="container">
             <h2>Nos alegramos que hayas encontrado a ${this.petData.name}</h2>
-            <h3>🐹 Comparti nuestra app para encontrar mas mascotas perdidas 🐹</h3>
+            <h3>Comparti nuestra app para encontrar mas mascotas perdidas👽</h3>
             <img src="${this.petData.image}"/>
           </div>
           
@@ -227,6 +230,7 @@ customElements.define(
                     agregar/modificar foto
                 </div>
                 <div class="map"></div>
+                <div id="map" style="width: 100%; height: 100%"></div>
                 <div class="input-item">
                     <label>UBICACIÓN</label>
                     <input type="text" name="location" class="input-text"/>

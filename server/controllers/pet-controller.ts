@@ -17,6 +17,7 @@ export class PetController {
         image: imagen.secure_url,
         lastGeo_lat: data.lastGeo_lat,
         lastGeo_lon: data.lastGeo_lon,
+        place: data.place,
         founded: false,
         userId: userId,
       };
@@ -31,7 +32,9 @@ export class PetController {
           lat: newPet.get("lastGeo_lat"),
           lng: newPet.get("lastGeo_lon"),
         },
+        place: newPet.get("place"),
         founded: newPet.get("founded"),
+        userId: newPet.get("userId"),
       });
 
       return { data: dataComplete, petId: newPet.get("id") };
@@ -48,8 +51,7 @@ export class PetController {
       data.image = imagen.secure_url;
     }
 
-    const response = await Pet.update(data, { where: { id: petId } });
-    console.log(response);
+    await Pet.update(data, { where: { id: petId } });
 
     const dataUpdate = bodyToItem(petId, data);
 
@@ -57,8 +59,13 @@ export class PetController {
 
     return { data: data };
   }
-  async getAllPetsNotFounded() {
-    const allPets = await Pet.findAll({ where: { founded: false } });
+  async getAllPetsNotFounded(coord) {
+    const { lat, lng } = coord;
+    const { hits } = await indexPets.search("", {
+      aroundLatLng: [lat, lng].join(","),
+      aroundRadius: 2000,
+    });
+    const allPets = hits.filter((p: any) => !p.founded);
     return { allPets };
   }
   async getPetsByUserId(userId) {
