@@ -4,7 +4,14 @@ import { state } from "../state";
 customElements.define(
   "datos-page",
   class extends HTMLElement {
-    connectedCallback() {
+    fullname: string;
+    async connectedCallback() {
+      const token = state.getToken();
+      if (token) {
+        const me = await state.getMe();
+        this.fullname = me.fullname;
+      }
+
       this.render();
       const cs = state.getState();
 
@@ -15,8 +22,6 @@ customElements.define(
         const name = e.target.name.value;
         const password = e.target.password.value;
         const password_verify = e.target["password-verify"].value;
-
-        const token = state.getToken();
 
         //Si ingresan password
         if (password) {
@@ -89,6 +94,10 @@ customElements.define(
           font-size:22px;
           font-family:"Dosis";
       }    
+      .name::placeholder {
+        color: black;
+        font-size: 22px;
+      }
       .password{
           height:40px;
           margin-bottom:10px;
@@ -120,7 +129,9 @@ customElements.define(
         <form class="profile-form">
             <div class="item-input-email">
                 <label>NOMBRE</label>
-                <input type="text" name="name" class="name"/>        
+                <input type="text" name="name" class="name" placeholder="${
+                  this.fullname || ""
+                }"/>        
             </div>
             <div class="item-input-password">
                 <label>CONTRASEÑA</label>

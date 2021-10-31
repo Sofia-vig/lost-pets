@@ -3,14 +3,13 @@ import { capitalize } from "lodash";
 import { Router } from "@vaadin/router";
 
 customElements.define(
-  "pet-card",
+  "my-card",
   class extends HTMLElement {
     pets: any = [];
     async connectedCallback() {
-      //Guardo en this.pets todas las mascotas cercanas
-      const { allPets } = await state.getPets();
-      this.pets = allPets;
-
+      //Guardo en this.pets mis mascotas reportadas
+      const { myPets } = await state.getMyPets();
+      this.pets = myPets;
       this.render();
     }
     render() {
@@ -63,16 +62,13 @@ customElements.define(
             <div class="card-info">
                 <h2 class="card-name">${capitalize(pet.name)}</h2>
                 <h3 class="card-place">${capitalize(pet.place)}</h3>       
-                <a class="card-link" href="">REPORTAR INFORMACION</a> 
+                <a class="card-link" href="">EDITAR</a> 
             </div>    
         </div>`;
 
-        //Si clickea en reportar informacion va a la pagina report de esa mascota
+        //Si clickea en editar va a la pagina para editar
         div.querySelector(".card-link")?.addEventListener("click", (e) => {
           //Hay que pasar el id de la mascota
-          const cs = state.getState();
-          cs.petId = pet.id;
-          state.setState(cs);
           state.setReportName(capitalize(pet.name));
           Router.go("/report");
         });

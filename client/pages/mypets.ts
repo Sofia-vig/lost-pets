@@ -3,26 +3,14 @@ import { state } from "../state";
 customElements.define(
   "mypets-page",
   class extends HTMLElement {
-    connectedCallback() {
+    pets: any;
+    async connectedCallback() {
+      const { myPets } = await state.getMyPets();
+      this.pets = myPets;
+
       this.render();
-
-      //Pido los permisos de geolocalizacion y los seteo en el state
-      const button = this.querySelector("button-component");
-      button?.addEventListener("click", () => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
-          state.setPosition(latitude, longitude);
-        });
-      });
-
-      //Me suscribo al estado para mostrar las card si acepta geolocalizacion
-      state.subscribe(() => {
-        this.render();
-      });
     }
     render() {
-      const position = state.getPosition();
-
       const style = document.createElement("style");
       style.innerHTML = `
       *{
@@ -45,6 +33,14 @@ customElements.define(
           margin:0;
           color:#ECF0F1;
       }
+      .empty{
+        font-size:24px;
+        color:#ECF0F1;
+        font-weight:bold;
+        text-align:center;
+        padding:20px;
+        border:solid;
+      }
       `;
 
       //Pido permisos de ubicacion, si los permite muestro las mascotas cercanas
@@ -52,7 +48,11 @@ customElements.define(
       <header-component></header-component>
       <div class="container">
         <title-component>Mis mascotas  reportadas</title-component>
-        <pet-card type="me"></pet-card>      
+        ${
+          this.pets.length > 0
+            ? `<my-card></my-card>`
+            : `<h3 class="empty">Aun no reportaste mascotas perdidas</h3>`
+        }              
       </div>  
       
       `;

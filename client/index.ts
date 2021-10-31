@@ -10,6 +10,7 @@ import "./components/header";
 import "./components/burger-menu";
 import "./components/button";
 import "./components/card";
+import "./components/mycard";
 
 (async function () {
   const me = await state.getMe();

@@ -1,22 +1,70 @@
+import { Router } from "@vaadin/router";
 import { state } from "../state";
 
 customElements.define(
   "report-page",
   class extends HTMLElement {
     petName: string;
+    petId;
     connectedCallback() {
-      this.petName = state.getState().reportName;
+      const cs = state.getState();
+      this.petName = cs.reportName;
+      this.petId = cs.petId;
 
       this.render();
 
       //Data del reporte
       const form = this.querySelector(".form-report");
-      form.addEventListener("submit", (e: any) => {
+      form.addEventListener("submit", async (e: any) => {
         e.preventDefault();
-        const name = e.target.name.value;
-        const phone = e.target.phone.value;
-        const description = e.target.description.value;
-        // state.newReport({ name, phone, description, petId: 1 });
+        const reporter_name = e.target.name.value;
+        const phone_number = e.target.phone.value;
+        const message = e.target.description.value;
+        await state.newReport({
+          reporter_name,
+          phone_number,
+          message,
+          petId: this.petId,
+        });
+
+        const container = this.querySelector(".container");
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+        .response-container{
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          margin-top:20px;
+          justify-content:center;
+          gap:4px;
+          text-align:center;
+        }
+        .reponse{
+          font-size:30px;
+          font-family:"Dosis";
+          font-weight:bold;
+          color:#ECF0F1;
+        }
+        h5{
+          font-size:24px;
+          font-family:"Dosis";
+          color:#ECF0F1;
+        }
+        `;
+
+        this.appendChild(style);
+
+        container.innerHTML = `
+        <div class="response-container">
+          <h2 class="reponse">Gracias por reportar, la mascotita te lo agradece ♥</h2>
+          <h5>Redirigiendo...</h5>
+        </div>  
+        `;
+
+        setTimeout(() => {
+          Router.go("/");
+        }, 3000);
       });
     }
     render() {

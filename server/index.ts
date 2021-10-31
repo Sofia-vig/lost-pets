@@ -10,9 +10,10 @@ require("dotenv").config();
 import { User, Pet, Report } from "./models";
 
 //Controllers
-import { UserController, PetController } from "./controllers";
+import { UserController, PetController, ReportController } from "./controllers";
 const userController = new UserController();
 const petController = new PetController();
+const reportController = new ReportController();
 
 //Utils
 import { authMiddleware } from "./lib/utils";
@@ -99,6 +100,11 @@ app.get("/me/pets", authMiddleware, async (req, res) => {
 
   const myPets = await petController.getPetsByUserId(req._user.id);
   res.json({ myPets });
+});
+
+app.post("/pets/report", async (req, res) => {
+  const newReport = await reportController.reportPet(req.body);
+  res.json(newReport);
 });
 
 app.use(express.static(path.resolve(__dirname, "../dist")));

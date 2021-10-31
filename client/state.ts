@@ -155,7 +155,20 @@ export const state = {
         Authorization: token ? "bearer " + token : null,
       },
     });
-    return myPets.json();
+
+    return await myPets.json();
+  },
+
+  //reportar mascota
+  async newReport(data) {
+    const newReport = await fetch("/pets/report", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return await newReport.json();
   },
 
   //cerrar sesión
