@@ -117,33 +117,33 @@ app.put("/pets/:petId", async (req, res) => {
 app.post("/pets/report", async (req, res) => {
   const { reporter_name, phone_number, message, petId, userId } = req.body;
   const newReport = await reportController.reportPet(req.body);
-  const user = await userController.findById(userId);
-  const pet = await petController.getPetById(petId);
-  const email = user.get("email");
-  const name = pet.get("name");
+  // const user = await userController.findById(userId);
+  // const pet = await petController.getPetById(petId);
+  // const email = user.get("email");
+  // const name = pet.get("name");
 
-  const msg = {
-    to: email,
-    from: "sofiavign@gmail.com",
-    subject: `Una persona vio a ${capitalize(name)}!!!`,
-    text: `Alguien vio a tu mascota perdida`,
-    html: `<h1>${capitalize(reporter_name)} vio a tu mascota!</h1>
-          <h3>Mensaje: ${message}</h3>
-          <p>Te dejamos su numero de telefono para que te comuniques:</p>
-          <h2>${phone_number}</h2>
-          <p>Lost-Pets</p>    `,
-  };
-  (async () => {
-    try {
-      await sgMail.send(msg);
-    } catch (error) {
-      console.error(error);
+  // const msg = {
+  //   to: email,
+  //   from: "sofiavign@gmail.com",
+  //   subject: `Una persona vio a ${capitalize(name)}!!!`,
+  //   text: `Alguien vio a tu mascota perdida`,
+  //   html: `<h1>${capitalize(reporter_name)} vio a tu mascota!</h1>
+  //         <h3>Mensaje: ${message}</h3>
+  //         <p>Te dejamos su numero de telefono para que te comuniques:</p>
+  //         <h2>${phone_number}</h2>
+  //         <p>Lost-Pets</p>    `,
+  // };
+  // (async () => {
+  //   try {
+  //     await sgMail.send(msg);
+  //   } catch (error) {
+  //     console.error(error);
 
-      if (error.response) {
-        console.error(error.response.body);
-      }
-    }
-  })();
+  //     if (error.response) {
+  //       console.error(error.response.body);
+  //     }
+  //   }
+  // })();
   res.json(newReport);
 });
 
