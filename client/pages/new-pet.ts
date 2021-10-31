@@ -66,6 +66,11 @@ customElements.define(
           });
           Router.go("/me/pets");
         });
+
+        const cancelar = this.querySelector(".cancelar");
+        cancelar.addEventListener("click", () => {
+          Router.go("/");
+        });
       } else {
         //Actualizo la mascota con todos los datos
         form.addEventListener("submit", async (event) => {
@@ -77,13 +82,53 @@ customElements.define(
 
           await state.updatePet({
             pictureDataURL,
-            name,
+            name: name || this.petData.name,
             lastGeo_lat: 1,
             lastGeo_lon: 2,
             id: this.petData.id,
           });
 
           Router.go("/me/pets");
+        });
+
+        const cancelar = this.querySelector(".cancelar");
+        cancelar.addEventListener("click", async () => {
+          await state.updatePet({
+            founded: true,
+            id: this.petData.id,
+          });
+          const body = this.querySelector(".container");
+          const style = document.createElement("style");
+          style.innerHTML = `
+          .container{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:6px;
+            font-size:22px;
+            font-weight:bold;
+            text-align:center;
+            color:#EDEDED;     
+          }
+          img{
+            max-width:350px;
+            max-height:350px;
+          }
+          `;
+          this.appendChild(style);
+          body.innerHTML = `
+          <div class="container">
+            <h2>Nos alegramos que hayas encontrado a ${this.petData.name}</h2>
+            <h3>🐹 Comparti nuestra app para encontrar mas mascotas perdidas 🐹</h3>
+            <img src="${this.petData.image}"/>
+          </div>
+          
+          `;
+          this.appendChild(body);
+          setTimeout(() => {
+            Router.go("/");
+          }, 4000);
         });
       }
     }

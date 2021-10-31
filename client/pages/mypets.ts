@@ -7,7 +7,6 @@ customElements.define(
     async connectedCallback() {
       const { myPets } = await state.getMyPets();
       this.pets = myPets;
-
       this.render();
     }
     render() {

@@ -194,7 +194,7 @@ export const state = {
       },
     });
     const response = await pet.json();
-    const { name, image, lastGeo_lat, lastGeo_lon } = response;
+    const { name, image, lastGeo_lat, lastGeo_lon, founded } = response;
     const data = {
       name,
       image,

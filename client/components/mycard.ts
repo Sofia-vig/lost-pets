@@ -31,24 +31,27 @@ customElements.define(
       }
       .card-info{
         text-align:center;
-        padding:10px;
-        
+        padding:10px;        
       }
       .card-name{
           font-size:40px;
           font-weight:700;
           color:#ECF0F1;
-          margin:3px;
+          margin:0;
       }
       .card-place{
-          font-size:16px;
-          margin:0 0 15px 0;
+        font-size:24px;
+        font-weight:700;
+        color:#ECF0F1;
+        margin:0 0 5px 0;
       }
       .card-link{
           color:#ECF0F1;
           text-align:center;
           font-weight:700;
+          margin:0;
       }
+
       `;
 
       this.appendChild(style);
@@ -61,7 +64,7 @@ customElements.define(
             <img class="card-image" src="${pet.image}"/>
             <div class="card-info">
                 <h2 class="card-name">${capitalize(pet.name)}</h2>
-                <h3 class="card-place">${capitalize(pet.place)}</h3>       
+                <h3 class="card-place">Villa Maria</h3>       
                 <a class="card-link">EDITAR</a> 
             </div>    
         </div>`;
