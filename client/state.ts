@@ -150,8 +150,7 @@ export const state = {
       },
       body: JSON.stringify(petData),
     });
-    const response = await petUpdate.json();
-    console.log(response);
+    await petUpdate.json();
   },
 
   //devuelve las mascotas no encontradas

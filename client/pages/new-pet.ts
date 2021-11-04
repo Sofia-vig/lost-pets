@@ -173,7 +173,7 @@ customElements.define(
               language: "es",
             },
             function (err, data, res) {
-              console.log(data);
+              // console.log(data);
               if (!err) callback(data.features);
             }
           );
